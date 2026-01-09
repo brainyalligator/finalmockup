@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #e8e8e8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 80px;
+            letter-spacing: -1px;
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 400;
+            padding: 8px 0;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        a:hover {
+            color: #0066cc;
+            transform: translateX(5px);
+        }
+
+        a::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: #0066cc;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        a:hover::before {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+                margin-bottom: 60px;
+            }
+
+            a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Final Mockup</h1>
+    
+    <div class="links-container">
+        <a href="var1/index.html">var1</a>
+        <a href="var2/index.html">var2</a>
+    </div>
+</body>
+</html>

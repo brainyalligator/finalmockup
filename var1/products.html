@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalPaani - Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', 'Helvetica', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            font-weight: 500;
+            background: #fefefe;
+            color: #173650;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        .floating-nav {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 4rem);
+            max-width: 1400px;
+            background: rgba(140, 140, 140, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo {
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            height: 36px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
+            position: relative;
+            padding-bottom: 0.25rem;
+            white-space: nowrap;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.7;
+        }
+
+        .nav-menu a.active {
+            font-weight: 700;
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.25rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #94d6d7;
+        }
+
+        .nav-cta {
+            background: #ffffff;
+            color: #173650 !important;
+            padding: 0.65rem 1.75rem;
+            border-radius: 30px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-cta:hover {
+            background: #94d6d7;
+            color: #173650 !important;
+            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(148, 214, 215, 0.4);
+        }
+
+        .nav-cta::after {
+            display: none;
+        }
+
+        /* Hero Carousel - LORD Style */
+        .hero-carousel {
+            width: 100vw;
+            height: 540px;
+            margin-top: 68px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.7s ease-in-out, visibility 0.7s;
+        }
+
+        .carousel-slide.current-slide {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        /* Background Image Layer */
+        .slide-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .slide-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Diagonal Accent Layer */
+        .slide-diagonal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .diagonal-stripe {
+            position: absolute;
+            width: 150%;
+            height: 100%;
+            top: 0;
+            left: -25%;
+            transform: skewX(-15deg);
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(23, 54, 80, 0.08) 35%,
+                    rgba(44, 125, 160, 0.12) 50%,
+                    transparent 65%);
+        }
+
+        /* Text Overlay Panel */
+        .slide-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 45%;
+            max-width: 600px;
+            background: rgba(23, 54, 80, 0.92);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3rem 4rem;
+            clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+        }
+
+        .slide-headline {
+            font-size: 2.75rem;
+            line-height: 1.15;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.6s ease-out 0.3s;
+        }
+
+        .slide-text {
+            font-size: 1.125rem;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.6s ease-out 0.5s;
+        }
+
+        .carousel-slide.current-slide .slide-headline,
+        .carousel-slide.current-slide .slide-text {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Navigation Controls */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-button--left {
+            right: 7rem;
+        }
+
+        .carousel-button--right {
+            right: 2rem;
+        }
+
+        .carousel-button svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+            stroke-width: 2.5;
+        }
+
+        /* Pagination Dots */
+        .carousel-nav {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .carousel-indicator.current-slide {
+            background: white;
+            width: 32px;
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-carousel {
+                height: 480px;
+            }
+
+            .slide-content {
+                width: 55%;
+                padding: 2.5rem 3rem;
+            }
+
+            .slide-headline {
+                font-size: 2.25rem;
+            }
+
+            .slide-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-carousel {
+                height: 420px;
+            }
+
+            .slide-content {
+                width: 100%;
+                max-width: 100%;
+                clip-path: none;
+                background: rgba(23, 54, 80, 0.88);
+                padding: 2rem;
+            }
+
+            .slide-headline {
+                font-size: 1.75rem;
+            }
+
+            .slide-text {
+                font-size: 0.95rem;
+            }
+
+            .carousel-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .carousel-button--left {
+                right: 5.5rem;
+            }
+
+            .carousel-button--right {
+                right: 1rem;
+            }
+
+            .diagonal-stripe {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="floating-nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="slides/DigitalPaani-Webiste.png" alt="DigitalPaani">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="solutions.html">Solutions</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="#">Connect</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#" class="nav-cta">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Carousel -->
+    <section class="hero-carousel">
+        <button class="carousel-button carousel-button--left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="carousel-track" id="track">
+            <!-- Slides will be injected here by JS -->
+        </div>
+
+        <button class="carousel-button carousel-button--right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="carousel-nav" id="nav-dots">
+            <!-- Dots will be injected here by JS -->
+        </div>
+    </section>
+
+    <script>
+        // Slide Data Configuration
+        const slidesData = [
+            {
+                headline: "End-to-End Water and Wastewater Management",
+                text: "Operational excellence of water assets—consistent compliance, maximum recycling, and smart cost optimisation.",
+                image: "carousel/1.png"
+            },
+            {
+                headline: "Plant Visualisations & Real-Time Monitoring",
+                text: "Live visibility into treatment assets and processes with real-time flow, level, and quality indicators across facilities.",
+                image: "carousel/2.png"
+            },
+            {
+                headline: "Predictive Insights & Root Cause Analysis",
+                text: "AI models identify early deviations, trace root causes across processes, and recommend corrective actions before performance degrades.",
+                image: "carousel/3.png"
+            },
+            {
+                headline: "Alerts & Automation Triggers",
+                text: "Smart alerts and automated triggers enable timely interventions, ensuring stable operations without constant manual oversight.",
+                image: "carousel/4.png"
+            },
+            {
+                headline: "Compliance Without Chaos",
+                text: "Built-in compliance monitoring and guided actions help teams meet regulatory requirements consistently, without firefighting or operational stress.",
+                image: "carousel/5.png"
+            }
+        ];
+
+        const track = document.getElementById('track');
+        const dotsNav = document.getElementById('nav-dots');
+
+        // Render Slides
+        slidesData.forEach((slide, index) => {
+            // Create Slide
+            const slideDiv = document.createElement('div');
+            slideDiv.classList.add('carousel-slide');
+            if (index === 0) slideDiv.classList.add('current-slide');
+
+            slideDiv.innerHTML = `
+                <div class="slide-background">
+                    <img src="${slide.image}" alt="${slide.headline}">
+                </div>
+                <div class="slide-diagonal">
+                    <div class="diagonal-stripe"></div>
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-headline">${slide.headline}</h1>
+                    <p class="slide-text">${slide.text}</p>
+                </div>
+            `;
+            track.appendChild(slideDiv);
+
+            // Create Dot
+            const button = document.createElement('button');
+            button.classList.add('carousel-indicator');
+            if (index === 0) button.classList.add('current-slide');
+            button.addEventListener('click', () => {
+                goToSlide(index);
+            });
+            dotsNav.appendChild(button);
+        });
+
+        const slides = Array.from(track.children);
+        const dots = Array.from(dotsNav.children);
+        const nextButton = document.querySelector('.carousel-button--right');
+        const prevButton = document.querySelector('.carousel-button--left');
+
+        let currentSlideIndex = 0;
+        let autoAdvanceTimer;
+
+        const goToSlide = (targetIndex) => {
+            // Wrap around
+            if (targetIndex < 0) targetIndex = slides.length - 1;
+            if (targetIndex >= slides.length) targetIndex = 0;
+
+            const currentSlide = slides[currentSlideIndex];
+            const targetSlide = slides[targetIndex];
+            const currentDot = dots[currentSlideIndex];
+            const targetDot = dots[targetIndex];
+
+            // Toggle classes
+            currentSlide.classList.remove('current-slide');
+            targetSlide.classList.add('current-slide');
+
+            currentDot.classList.remove('current-slide');
+            targetDot.classList.add('current-slide');
+
+            currentSlideIndex = targetIndex;
+        };
+
+        const startAutoAdvance = () => {
+            clearInterval(autoAdvanceTimer);
+            autoAdvanceTimer = setInterval(() => {
+                goToSlide(currentSlideIndex + 1);
+            }, 15000); // 15 seconds
+        };
+
+        nextButton.addEventListener('click', () => {
+            goToSlide(currentSlideIndex + 1);
+            startAutoAdvance(); // Restart timer after manual interaction
+        });
+
+        prevButton.addEventListener('click', () => {
+            goToSlide(currentSlideIndex - 1);
+            startAutoAdvance(); // Restart timer after manual interaction
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                goToSlide(currentSlideIndex + 1);
+                startAutoAdvance();
+            }
+            if (e.key === 'ArrowLeft') {
+                goToSlide(currentSlideIndex - 1);
+                startAutoAdvance();
+            }
+        });
+
+        // Start auto-advance on page load
+        startAutoAdvance();
+    </script>
+</body>
+
+</html>

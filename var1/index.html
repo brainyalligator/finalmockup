@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalPaani - AI-powered Water Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', 'Helvetica', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            font-weight: 500;
+            background: #fefefe;
+            color: #173650;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .floating-nav {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 4rem);
+            max-width: 1400px;
+            background: rgba(140, 140, 140, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo {
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            height: 36px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
+            position: relative;
+            padding-bottom: 0.25rem;
+            white-space: nowrap;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.7;
+        }
+
+        .nav-menu a.active {
+            font-weight: 700;
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.25rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #94d6d7;
+        }
+
+        .nav-cta {
+            background: #ffffff;
+            color: #173650 !important;
+            padding: 0.65rem 1.75rem;
+            border-radius: 30px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-cta:hover {
+            background: #94d6d7;
+            color: #173650 !important;
+            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(148, 214, 215, 0.4);
+        }
+
+        .nav-cta::after {
+            display: none;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 40% 60%;
+            align-items: center;
+            gap: 4rem;
+            margin-top: 8rem;
+            flex: 1;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .hero-heading {
+            font-size: 2.75rem;
+            font-weight: 600;
+            line-height: 1.2;
+            color: #173650;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            line-height: 1.65;
+            color: rgba(23, 54, 80, 0.65);
+            font-weight: 400;
+            letter-spacing: -0.005em;
+        }
+
+        .hero-list {
+            margin-top: 0.5rem;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: rgba(23, 54, 80, 0.7);
+            min-height: 2em;
+        }
+
+        .typewriter-text {
+            display: inline-block;
+            border-right: 2px solid #173650;
+            padding-right: 4px;
+            animation: blink 0.7s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #173650;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background: #1f4360;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(23, 54, 80, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #173650;
+            border: 1px solid #173650;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(23, 54, 80, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .hero-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .animation-container {
+            width: 100%;
+            aspect-ratio: 2816 / 1536;
+            background: linear-gradient(135deg, rgba(23, 54, 80, 0.05), rgba(23, 54, 80, 0.1));
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            padding: 1.5rem;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .indicator-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(23, 54, 80, 0.25);
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            padding: 0;
+        }
+
+        .indicator-dot:hover {
+            background: rgba(23, 54, 80, 0.5);
+            transform: scale(1.15);
+        }
+
+        .indicator-dot.active {
+            background: #173650;
+            width: 18px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                margin-top: 6rem;
+            }
+
+            .hero-heading {
+                font-size: 2.5rem;
+            }
+
+            .hero-right {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 1.25rem;
+            }
+
+            .nav-menu a {
+                font-size: 0.875rem;
+            }
+
+            .hero-heading {
+                font-size: 2rem;
+            }
+
+            .hero-description,
+            .hero-list {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero-section">
+        <nav class="floating-nav">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <img src="slides/DigitalPaani-Webiste.png" alt="DigitalPaani">
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="solutions.html">Solutions</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="#">Connect</a></li>
+                    <li><a href="#">Learn</a></li>
+                    <li><a href="#" class="nav-cta">CONTACT</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="hero-container">
+            <div class="hero-left">
+                <h1 class="hero-heading">AI-powered solutions for a water-secure future</h1>
+                <p class="hero-description">
+                    DigitalPaani uses AI, IoT and automation to drive operational excellence for underperforming
+                    treatment assets, making your facilities
+                    <span class="typewriter-text" id="typewriter"></span>
+                </p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary">Watch Demo</button>
+                    <button class="btn btn-secondary">Watch Video</button>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="animation-container">
+                    <div class="slide-indicators">
+                        <button class="indicator-dot active" data-slide="0"></button>
+                        <button class="indicator-dot" data-slide="1"></button>
+                        <button class="indicator-dot" data-slide="2"></button>
+                    </div>
+                    <div class="slide active">
+                        <img src="slides/1.png" alt="Slide 1">
+                    </div>
+                    <div class="slide">
+                        <img src="slides/2.png" alt="Slide 2">
+                    </div>
+                    <div class="slide">
+                        <img src="slides/3.png" alt="Slide 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const words = ['Compliant', 'Efficient', 'Sustainable', 'Profitable', 'Optimised'];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typewriterElement = document.getElementById('typewriter');
+        const typingSpeed = 100;
+        const deletingSpeed = 50;
+        const pauseBeforeDelete = 1500;
+        const pauseBeforeType = 500;
+
+        function typeWriter() {
+            const currentWord = words[wordIndex];
+
+            if (isDeleting) {
+                typewriterElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let delay = isDeleting ? deletingSpeed : typingSpeed;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                delay = pauseBeforeDelete;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                delay = pauseBeforeType;
+            }
+
+            setTimeout(typeWriter, delay);
+        }
+
+        typeWriter();
+
+        // Slide carousel with click navigation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator-dot');
+        const totalSlides = slides.length;
+        const animationContainer = document.querySelector('.animation-container');
+        let autoAdvanceTimer;
+
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+        }
+
+        function showNextSlide() {
+            const nextSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(nextSlide);
+        }
+
+        function startAutoAdvance() {
+            clearInterval(autoAdvanceTimer);
+            autoAdvanceTimer = setInterval(showNextSlide, 3000);
+        }
+
+        // Click handler for manual navigation on container
+        animationContainer.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('indicator-dot')) {
+                showNextSlide();
+                startAutoAdvance();
+            }
+        });
+
+        // Click handlers for indicator dots
+        indicators.forEach((dot, index) => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToSlide(index);
+                startAutoAdvance();
+            });
+        });
+
+        // Start auto-advance
+        startAutoAdvance();
+    </script>
+</body>
+
+</html>
